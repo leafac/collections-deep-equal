@@ -6,7 +6,7 @@
 
 # Problem
 
-[Maps](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) and [Sets](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) in JavaScript use a notion of equality in an object is considered equal to itself, but not to another object with the exact same keys and values:
+[Maps](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) and [Sets](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) in JavaScript use a notion of equality in which an object is considered equal to itself, but not to another object with the exact same keys and values:
 
 ```js
 const object = { name: "Leandro", age: 29 };
@@ -58,7 +58,7 @@ assert(setDeepEqual.has(object));
 assert(setDeepEqual.has(deepEqualObject));
 ```
 
-# Installation and Usage
+# Installation
 
 Install with `npm`:
 
@@ -160,7 +160,7 @@ The advantages of **Collections Deep Equal** over these libraries are:
 
 3. Immutability is possible and encouraged, but not enforced. For better and for worse.
 
-4. It’s [so simple](src/index.ts) that you could maintain it yourself if it’s abandoned, like it seems to have happened to some of the packages above. But don’t worry, **Collections Deep Equal** is being used in [my dissertation](https://github.com/leafac/yocto-cfa), so it’ll stick around.
+4. **Collections Deep Equal** is [so simple](src/index.ts) that you could maintain it yourself if it’s abandoned, like some of the packages above seem to have been. But don’t worry, **Collections Deep Equal** is being used in [my dissertation](https://github.com/leafac/yocto-cfa), so it’ll stick around.
 
 ## Other Approaches to Immutability
 
