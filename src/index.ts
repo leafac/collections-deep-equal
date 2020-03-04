@@ -61,7 +61,10 @@ class MySet<T> extends Set<T> {
   }
 }
 
-function canonicalize<T>(collection: { keys(): IterableIterator<T> }, element: T) {
+function canonicalize<T>(
+  collection: { keys(): IterableIterator<T> },
+  element: T
+) {
   return (
     [...collection.keys()].find(anElement => deepEqual(element, anElement)) ??
     element
