@@ -103,6 +103,19 @@ describe("MapDeepEqual", () => {
       `"[[{\\"name\\":\\"Leandro\\",\\"age\\":29},\\"second value wins\\"]]"`
     );
   });
+
+  test("mutating a key", () => {
+    const object = { name: "Leandro", age: 29 };
+    const deepEqualObject = { name: "Leandro", age: 29 };
+    const map = new MapDeepEqual([[object, "a value"]]);
+    expect(map.get(deepEqualObject)).toBe("a value");
+    object.age = 30;
+    expect(map.get(object)).toBe("a value");
+    expect(map.get(deepEqualObject)).toBeUndefined();
+    deepEqualObject.age = 30;
+    expect(map.get(object)).toBe("a value");
+    expect(map.get(deepEqualObject)).toBe("a value");
+  });
 });
 
 describe("SetDeepEqual", () => {
@@ -154,5 +167,18 @@ describe("SetDeepEqual", () => {
     expect(JSON.stringify(set)).toMatchInlineSnapshot(
       `"[{\\"name\\":\\"Leandro\\",\\"age\\":29}]"`
     );
+  });
+
+  test("mutating an element", () => {
+    const object = { name: "Leandro", age: 29 };
+    const deepEqualObject = { name: "Leandro", age: 29 };
+    const set = new SetDeepEqual([object]);
+    expect(set.has(deepEqualObject)).toBe(true);
+    object.age = 30;
+    expect(set.has(object)).toBe(true);
+    expect(set.has(deepEqualObject)).toBe(false);
+    deepEqualObject.age = 30;
+    expect(set.has(object)).toBe(true);
+    expect(set.has(deepEqualObject)).toBe(true);
   });
 });

@@ -26,7 +26,7 @@ assert(set.has(object));
 assert(!set.has(deepEqualObject));
 ```
 
-One the one hand, this is good, because `object` and `deepEqualObject` really **aren’t** the same object. We may, for example, modify `object` and `deepEqualObject` would no longer be deep equal:
+One the one hand, this is good, because `object` and `deepEqualObject` really **aren’t** the same object. We may, for example, modify `object` and `deepEqualObject` would no longer be deep equal to it:
 
 ```js
 object.age = 30;
@@ -39,7 +39,7 @@ On the other hand, this is annoying, because you may know that you’re never mu
 
 # Solution
 
-Collections Deep Equal provides `MapDeepEqual` and `SetDeepEqual`, which provide the same API as JavaScript’s native Maps and Sets, except that the notion of equality is [`deep-equal`](https://www.npmjs.com/package/deep-equal):
+**Collections Deep Equal** provides `MapDeepEqual` and `SetDeepEqual`, which have the same API as JavaScript’s native Maps and Sets, except that their notion of equality is [`deep-equal`](https://www.npmjs.com/package/deep-equal):
 
 ```js
 import { MapDeepEqual, SetDeepEqual } from "collections-deep-equal";
@@ -81,9 +81,9 @@ import {
 
 ## Performance
 
-Collections Deep Equal hasn’t been benchmarked , but it probably is orders of magnitude slower than the native collections, because for every access it iterates over all keys calling `deepEqual()`. It’s a straightforward, if naive, implementation.
+**Collections Deep Equal** hasn’t been benchmarked , but it probably is orders of magnitude slower than the native collections, because for every access it iterates over all keys and calls `deepEqual()` on them. It’s a straightforward, if naive, implementation.
 
-# Mutation
+## Mutation
 
 If you mutate objects, then the collections using them change as well:
 
@@ -120,6 +120,11 @@ assert.deepEqual(
     ["c", new SetDeepEqual([4])]
   ])
 );
+
+assert.deepEqual(
+  new SetDeepEqual([1]).merge(new SetDeepEqual([2])),
+  new SetDeepEqual([1, 2])
+);
 ```
 
 ## `toJSON()`
@@ -141,36 +146,38 @@ assert(JSON.stringify(new SetDeepEqual([1, 2])) === `[1, 2]`);
 ## Other Libraries That Implementation Alternative Collections
 
 - https://immutable-js.github.io/immutable-js/
-- https://github.com/swannodette/mori
+- http://swannodette.github.io/mori/
 - https://www.npmjs.com/package/typescript-collections
-- https://github.com/emmanueltouzery/prelude-ts
-- https://github.com/frptools/collectable
+- https://www.npmjs.com/package/prelude-ts
+- https://www.npmjs.com/package/collectable
 - https://www.collectionsjs.com
 
-The advantages of Collections Deep Equal over these libraries are:
+The advantages of **Collections Deep Equal** over these libraries are:
 
-1. You don’t have to buy into completely new data structures like Immutable.js’s Records. These other data structures may be more difficult to inspect in debuggers; they may not work well with other libraries, forcing you to convert back and forth; and they may annoying to type in TypeScript.
+1. You don’t have to buy into completely new data structures like Immutable.js’s Records. These other data structures may have different APIs and therefore a bit of a learning curve; they may be more difficult to inspect in debuggers; they may not work well with other libraries, forcing you to convert back and forth; and they may annoying to use in TypeScript.
 
 2. The notion of equality is determined by the data structures, not by the elements. In most of these libraries, elements are forced to implement `equals()` and `hash()`, which makes sense in a object-oriented style, but not in a functional style.
 
 3. Immutability is possible and encouraged, but not enforced. For better and for worse.
 
+4. It’s [so simple](src/index.ts) that you could maintain it yourself if it’s abandoned, like it seems to have happened to some of the packages above. But don’t worry, **Collections Deep Equal** is being used in [my dissertation](https://github.com/leafac/yocto-cfa), so it’ll stick around.
+
 ## Other Approaches to Immutability
 
-- https://github.com/immerjs/immer
-- https://github.com/rtfeldman/seamless-immutable
-- https://github.com/aearly/icepick
-- https://github.com/substack/deep-freeze
+- https://immerjs.github.io/immer/docs/introduction
+- https://www.npmjs.com/package/seamless-immutable
+- https://www.npmjs.com/package/icepick
+- https://www.npmjs.com/package/deep-freeze
 
 These libraries don’t provide new data structures. They’re just facilitating the use of immutable data structures, which may pave the way to a new notion of equality.
 
-## Very Similar Approaches
+## Very Similar But Incomplete Approaches
 
-- https://github.com/Jamesernator/es6-array-map
-- https://github.com/alastairpatrick/valuecollection
+- https://www.npmjs.com/package/es6-array-map
+- https://www.npmjs.com/package/valuecollection
 - https://www.npmjs.com/package/@strong-roots-capital/map-objects
 
-These libraries are very similar to Collections Deep Equal in spirit, but their implementations are either incomplete, or they lack type definitions, and so forth.
+These libraries are very similar to **Collections Deep Equal** in spirit, but their implementations are either incomplete, or they lack type definitions, and so forth.
 
 ## Definitive Solutions
 
