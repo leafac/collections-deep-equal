@@ -2,13 +2,13 @@
   "name": "collections-deep-equal",
   "version": "1.0.0",
   "description": "Collections like JavaScript’s native Maps and Sets, but using value equality (deep-equal) instead of reference equality",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
+  "files": [
+    "lib/**"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "test": "prettier --check 'src/**' && tsc && jest"
+    "test": "tsc && jest && prettier --check 'src/**'"
   },
   "dependencies": {
     "deep-equal": "^2.0.1"
