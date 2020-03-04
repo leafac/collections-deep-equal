@@ -1,5 +1,3 @@
-import "./index";
+import { MapDeepEqual, SetDeepEqual } from "./index";
 
-describe("Map", () => {
-
-});
+describe("MapDeepEqual", () => {});

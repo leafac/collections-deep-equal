@@ -1,8 +1,6 @@
-export { MyMap as Map, MySet as Set };
-
 import deepEqual from "deep-equal";
 
-class MyMap<K, V> extends Map<K, V> {
+export class MapDeepEqual<K, V> extends Map<K, V> {
   delete(key: K): boolean {
     return super.delete(canonicalize(this, key));
   }
@@ -19,8 +17,8 @@ class MyMap<K, V> extends Map<K, V> {
     return super.set(canonicalize(this, key), value);
   }
 
-  merge(other: MyMap<K, V>): this {
-    [...other].forEach(([key, otherValue]) => {
+  merge(other: MapDeepEqual<K, V>): this {
+    other.forEach((otherValue, key) => {
       const thisValue = this.get(key);
       if (thisValue === undefined) return this.set(key, otherValue);
       if (typeof (thisValue as any).merge === "function")
@@ -38,7 +36,7 @@ class MyMap<K, V> extends Map<K, V> {
   }
 }
 
-class MySet<T> extends Set<T> {
+export class SetDeepEqual<T> extends Set<T> {
   add(value: T): this {
     return super.add(canonicalize(this, value));
   }
@@ -51,8 +49,8 @@ class MySet<T> extends Set<T> {
     return super.has(canonicalize(this, value));
   }
 
-  merge(other: MySet<T>): this {
-    [...other].forEach(otherValue => this.add(otherValue));
+  merge(other: SetDeepEqual<T>): this {
+    other.forEach(otherValue => this.add(otherValue));
     return this;
   }
 
