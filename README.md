@@ -94,9 +94,9 @@ const deepEqualObject = { name: "Leandro", age: 29 };
 const mapDeepEqual = new MapDeepEqual();
 mapDeepEqual.set(object, "value");
 object.age = 30;
-assert(!map.has(deepEqualObject));
+assert(!mapDeepEqual.has(deepEqualObject));
 deepEqualObject.age = 30;
-assert(map.has(deepEqualObject));
+assert(mapDeepEqual.has(deepEqualObject));
 ```
 
 # Additional Features
@@ -130,8 +130,8 @@ assert.deepEqual(
 ## `toJSON()`
 
 ```js
-assert(JSON.stringify(new MapDeepEqual([["a", 1]])) === `[["a", 1]]`);
-assert(JSON.stringify(new SetDeepEqual([1, 2])) === `[1, 2]`);
+assert(JSON.stringify(new MapDeepEqual([["a", 1]])) === `[["a",1]]`);
+assert(JSON.stringify(new SetDeepEqual([1, 2])) === `[1,2]`);
 ```
 
 # Related Work
