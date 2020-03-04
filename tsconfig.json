@@ -2,12 +2,12 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
-    // "module": "commonjs",
-    // "esModuleInterop": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
     "target": "ESNext",
-    "strict": true
-    // "sourceMap": true,
-    // "declaration": true,
-    // "declarationMap": true,
+    "strict": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true
   }
 }
