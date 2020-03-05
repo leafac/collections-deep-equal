@@ -1,6 +1,6 @@
 # Collections Deep Equal
 
-**Collections like JavaScript’s native Maps and Sets, but using value equality (deep-equal) instead of reference equality**
+**Collections like JavaScript’s native Maps and Sets, but using value equality ([`deep-equal`](https://www.npmjs.com/package/deep-equal)) instead of reference equality**
 
 [**Source**](https://github.com/leafac/collections-deep-equal) • [**Package**](https://www.npmjs.com/package/collections-deep-equal) • ![.github/workflows/main.yml](https://github.com/leafac/collections-deep-equal/workflows/.github/workflows/main.yml/badge.svg)
 
