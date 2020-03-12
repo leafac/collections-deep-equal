@@ -81,7 +81,7 @@ import {
 
 ## Performance
 
-**Collections Deep Equal** hasn’t been benchmarked , but it probably is orders of magnitude slower than the native collections, because for every access it iterates over all keys and calls `deepEqual()` on them. It’s a straightforward, if naive, implementation.
+**Collections Deep Equal** hasn’t been benchmarked, but it probably is orders of magnitude slower than the native collections, because for every access it iterates over all keys and calls `deepEqual()` on them. It’s a straightforward, if naive, implementation.
 
 ## Mutation
 
