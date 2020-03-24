@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.0] - 2020-03-24
+
+### Changed
+
+- Use [`util.isDeepStrictEqual()`](https://nodejs.org/dist/latest/docs/api/util.html#util_util_isdeepstrictequal_val1_val2) instead of [`deep-equal`](https://www.npmjs.com/package/deep-equal).
+
 ## [1.0.1] - 2020-03-23
 
 ### Added
@@ -18,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Initial release with `MapDeepEqual` and `SetDeepEqual`.
 
-[unreleased]: https://github.com/leafac/shiki-latex/compare/1.0.1...HEAD
+[unreleased]: https://github.com/leafac/shiki-latex/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/leafac/shiki-latex/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/leafac/shiki-latex/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/leafac/shiki-latex/releases/tag/1.0.0

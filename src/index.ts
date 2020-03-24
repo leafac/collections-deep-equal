@@ -1,4 +1,4 @@
-import deepEqual from "deep-equal";
+import { isDeepStrictEqual } from "util";
 
 export class MapDeepEqual<K, V> extends Map<K, V> {
   delete(key: K): boolean {
@@ -64,7 +64,8 @@ function canonicalize<T>(
   element: T
 ) {
   return (
-    [...collection.keys()].find(anElement => deepEqual(element, anElement)) ??
-    element
+    [...collection.keys()].find(anElement =>
+      isDeepStrictEqual(element, anElement)
+    ) ?? element
   );
 }

@@ -1,5 +1,5 @@
 import { MapDeepEqual, SetDeepEqual } from "./index";
-import deepEqual from "deep-equal";
+import { isDeepStrictEqual } from "util";
 
 const object = { name: "Leandro", age: 29 };
 const deepEqualObject = { name: "Leandro", age: 29 };
@@ -64,7 +64,7 @@ describe("MapDeepEqual", () => {
       ]);
       expect(otherMap.merge(anotherMap)).toBe(otherMap);
       expect(
-        deepEqual(
+        isDeepStrictEqual(
           otherMap,
           new MapDeepEqual([
             [object, "second value wins"],
@@ -80,7 +80,7 @@ describe("MapDeepEqual", () => {
         [deepEqualObject, new SetDeepEqual([2])]
       ]);
       expect(
-        deepEqual(
+        isDeepStrictEqual(
           map.merge(otherMap),
           new MapDeepEqual([[object, new SetDeepEqual([1, 2])]])
         )
@@ -159,7 +159,10 @@ describe("SetDeepEqual", () => {
       otherSet.merge(new SetDeepEqual([deepEqualObject, otherObject]))
     ).toBe(otherSet);
     expect(
-      deepEqual(otherSet, new SetDeepEqual([object, deepEqualOtherObject]))
+      isDeepStrictEqual(
+        otherSet,
+        new SetDeepEqual([object, deepEqualOtherObject])
+      )
     ).toBe(true);
   });
 
