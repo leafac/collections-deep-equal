@@ -1,8 +1,10 @@
-# Collections Deep Equal
-
-**Collections like JavaScript’s native Maps and Sets, but using value equality ([`deep-equal`](https://www.npmjs.com/package/deep-equal)) instead of reference equality**
-
-[**Source**](https://github.com/leafac/collections-deep-equal) • [**Package**](https://www.npmjs.com/package/collections-deep-equal) • ![.github/workflows/main.yml](https://github.com/leafac/collections-deep-equal/workflows/.github/workflows/main.yml/badge.svg)
+<h1 align="center">Collections Deep Equal</h1>
+<h3 align="center">Collections like JavaScript’s native Maps and Sets, but using value equality (<a href="https://www.npmjs.com/package/deep-equal"><code>deep-equal</code></a>) instead of reference equality</h3>
+<p align="center">
+<a href="https://github.com/leafac/collections-deep-equal"><img alt="Source" src="https://img.shields.io/badge/Source---" /></a>
+<a href="https://www.npmjs.com/package/collections-deep-equal"><img alt="Package" src="https://badge.fury.io/js/collections-deep-equal.svg"/></a>
+<a href="https://github.com/leafac/collections-deep-equal/actions"><img alt="Continuous Integration" src="https://github.com/leafac/collections-deep-equal/workflows/.github/workflows/main.yml/badge.svg" /></a>
+</p>
 
 # Problem
 
