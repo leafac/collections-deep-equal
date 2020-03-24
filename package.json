@@ -1,6 +1,6 @@
 {
   "name": "collections-deep-equal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Collections like JavaScript’s native Maps and Sets, but using value equality (deep-equal) instead of reference equality",
   "files": [
     "lib/**"
