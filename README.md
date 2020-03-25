@@ -1,5 +1,5 @@
 <h1 align="center">Collections Deep Equal</h1>
-<h3 align="center">Collections like JavaScript’s native Maps and Sets, but using value equality (<a href="https://nodejs.org/dist/latest/docs/api/util.html#util_util_isdeepstrictequal_val1_val2"><code>util.isDeepStrictEqual()</code></a>) instead of reference equality</h3>
+<h3 align="center">Collections like JavaScript’s native Maps and Sets, but using value equality (<a href="https://nodejs.org/api/util.html#util_util_isdeepstrictequal_val1_val2"><code>util.isDeepStrictEqual()</code></a>) instead of reference equality</h3>
 <p align="center">
 <a href="https://github.com/leafac/collections-deep-equal"><img alt="Source" src="https://img.shields.io/badge/Source---" /></a>
 <a href="https://www.npmjs.com/package/collections-deep-equal"><img alt="Package" src="https://badge.fury.io/js/collections-deep-equal.svg"/></a>
@@ -41,7 +41,7 @@ On the other hand, this is annoying, because you may know that you’re never mu
 
 # Solution
 
-**Collections Deep Equal** provides `MapDeepEqual` and `SetDeepEqual`, which have the same API as JavaScript’s native Maps and Sets, except that their notion of equality is [`util.isDeepStrictEqual()`](https://nodejs.org/dist/latest/docs/api/util.html#util_util_isdeepstrictequal_val1_val2):
+**Collections Deep Equal** provides `MapDeepEqual` and `SetDeepEqual`, which have the same API as JavaScript’s native Maps and Sets, except that their notion of equality is [`util.isDeepStrictEqual()`](https://nodejs.org/api/util.html#util_util_isdeepstrictequal_val1_val2):
 
 ```js
 import { MapDeepEqual, SetDeepEqual } from "collections-deep-equal";

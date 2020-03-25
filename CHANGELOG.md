@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Use [`util.isDeepStrictEqual()`](https://nodejs.org/dist/latest/docs/api/util.html#util_util_isdeepstrictequal_val1_val2) instead of [`deep-equal`](https://www.npmjs.com/package/deep-equal).
+- Use [`util.isDeepStrictEqual()`](https://nodejs.org/api/util.html#util_util_isdeepstrictequal_val1_val2) instead of [`deep-equal`](https://www.npmjs.com/package/deep-equal).
 
 ## [1.0.1] - 2020-03-23
 
