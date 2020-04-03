@@ -8,13 +8,13 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "tsc && jest && prettier --check 'src/**'"
+    "test": "tsc && jest && prettier --check src"
   },
   "devDependencies": {
     "@types/jest": "^25.1.3",
     "@types/node": "^13.9.3",
     "jest": "^25.1.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.2",
     "typescript": "^3.8.3"
   },
   "jest": {

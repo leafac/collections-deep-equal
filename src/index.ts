@@ -50,7 +50,7 @@ export class SetDeepEqual<T> extends Set<T> {
   }
 
   merge(other: SetDeepEqual<T>): this {
-    other.forEach(otherValue => this.add(otherValue));
+    other.forEach((otherValue) => this.add(otherValue));
     return this;
   }
 
@@ -64,7 +64,7 @@ function canonicalize<T>(
   element: T
 ) {
   return (
-    [...collection.keys()].find(anElement =>
+    [...collection.keys()].find((anElement) =>
       isDeepStrictEqual(element, anElement)
     ) ?? element
   );
