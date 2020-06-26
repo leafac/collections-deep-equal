@@ -20,12 +20,12 @@ assert.deepEqual(object, deepEqualObject);
 const map = new Map();
 map.set(object, "value");
 assert(map.get(object) === "value");
-assert(map.get(deepEqualObject) === undefined);
+assert(map.get(deepEqualObject) === undefined); // Sometimes you wish this to be "value"
 
 const set = new Set();
 set.add(object);
 assert(set.has(object));
-assert(!set.has(deepEqualObject));
+assert(!set.has(deepEqualObject)); // Sometimes you wish this to hold
 ```
 
 One the one hand, this is good, because `object` and `deepEqualObject` are **not** the same object. We may, for example, modify `object` such that `deepEqualObject` would no longer be deep equal to it:
