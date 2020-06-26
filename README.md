@@ -6,9 +6,9 @@
 <a href="https://github.com/leafac/collections-deep-equal/actions"><img alt="Continuous Integration" src="https://github.com/leafac/collections-deep-equal/workflows/.github/workflows/main.yml/badge.svg"></a>
 </p>
 
-# Problem
+## Problem
 
-[Maps](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) and [Sets](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) in JavaScript use a notion of equality in which an object is considered equal to itself, but not to another object with the exact same keys and values:
+Native JavaScript [Maps](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) and [Sets](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) use a notion of equality in which an object is considered equal to itself but not to another object with the same keys and values:
 
 ```js
 const object = { name: "Leandro", age: 29 };
@@ -28,7 +28,7 @@ assert(set.has(object));
 assert(!set.has(deepEqualObject));
 ```
 
-One the one hand, this is good, because `object` and `deepEqualObject` really **aren’t** the same object. We may, for example, modify `object` and `deepEqualObject` would no longer be deep equal to it:
+One the one hand, this is good, because `object` and `deepEqualObject` are **not** the same object. We may, for example, modify `object` such that `deepEqualObject` would no longer be deep equal to it:
 
 ```js
 object.age = 30;
@@ -39,28 +39,24 @@ assert(deepEqualObject.age === 29);
 
 On the other hand, this is annoying, because you may know that you’re never mutating objects like that, and yet JavaScript doesn’t give you a way to customize the notion of equality used by Maps and Sets.
 
-# Solution
+## Solution
 
-**Collections Deep Equal** provides `MapDeepEqual` and `SetDeepEqual`, which have the same API as JavaScript’s native Maps and Sets, except that their notion of equality is [`util.isDeepStrictEqual()`](https://nodejs.org/api/util.html#util_util_isdeepstrictequal_val1_val2):
+**Collections Deep Equal** provides Maps and Sets which have the same API as native Maps and Sets, except that their notion of equality is [`util.isDeepStrictEqual()`](https://nodejs.org/api/util.html#util_util_isdeepstrictequal_val1_val2):
 
 ```js
-import { MapDeepEqual, SetDeepEqual } from "collections-deep-equal";
+import { Map, Set } from "collections-deep-equal";
 
 const object = { name: "Leandro", age: 29 };
 const deepEqualObject = { name: "Leandro", age: 29 };
 
-const mapDeepEqual = new MapDeepEqual();
-mapDeepEqual.set(object, "value");
-assert(mapDeepEqual.get(object) === "value");
-assert(mapDeepEqual.get(deepEqualObject) === "value");
+const map = new Map();
+assert(map.get(deepEqualObject) === "value");
 
-const setDeepEqual = new SetDeepEqual();
-setDeepEqual.add(object);
-assert(setDeepEqual.has(object));
-assert(setDeepEqual.has(deepEqualObject));
+const set = new Set();
+assert(set.has(deepEqualObject));
 ```
 
-# Installation
+## Installation
 
 Install with `npm`:
 
@@ -70,22 +66,28 @@ $ npm install collections-deep-equal
 
 The package comes with type definitions for [TypeScript](https://www.typescriptlang.org).
 
-If you wish to replace JavaScript’s Maps and Sets seamlessly, rename on import:
+If you wish to use only **Collections Deep Equal** and not native Maps and Sets, import the library:
+
+```js
+import { Map, Set } from "collections-deep-equal";
+```
+
+If you wish to use both **Collections Deep Equal** as well as native Maps and Sets in the same module, rename on import:
 
 ```js
 import {
-  MapDeepEqual as Map,
-  SetDeepEqual as Set
+  Map as MapDeepEqual,
+  Set as SetDeepEqual,
 } from "collections-deep-equal";
 ```
 
-# Caveats
+## Caveats
 
-## Performance
+### Performance
 
-**Collections Deep Equal** hasn’t been benchmarked, but it probably is orders of magnitude slower than the native collections, because for every access it iterates over all keys and calls `deepEqual()` on them. It’s a straightforward, if naive, implementation.
+**Collections Deep Equal** hasn’t been benchmarked, but it should be orders of magnitude slower than the native collections, because for every access it iterates over all keys and calls `deepEqual()` on them. It’s a straightforward, if naive, implementation.
 
-## Mutation
+### Mutation
 
 If you mutate objects, then the collections using them change as well:
 
@@ -93,59 +95,56 @@ If you mutate objects, then the collections using them change as well:
 const object = { name: "Leandro", age: 29 };
 const deepEqualObject = { name: "Leandro", age: 29 };
 
-const mapDeepEqual = new MapDeepEqual();
-mapDeepEqual.set(object, "value");
+const map = new Map();
+map.set(object, "value");
 object.age = 30;
-assert(!mapDeepEqual.has(deepEqualObject));
+assert(!map.has(deepEqualObject));
 deepEqualObject.age = 30;
-assert(mapDeepEqual.has(deepEqualObject));
+assert(map.has(deepEqualObject));
 ```
 
-# Additional Features
+## Additional Features
 
-## `merge()`
+### `merge()`
 
 ```js
 assert.deepEqual(
-  new MapDeepEqual([
-    ["a", new SetDeepEqual([1])],
-    ["b", new SetDeepEqual([2])]
+  new Map([
+    ["a", new Set([1])],
+    ["b", new Set([2])],
   ]).merge(
-    new MapDeepEqual([
-      ["b", new SetDeepEqual([3])],
-      ["c", new SetDeepEqual([4])]
+    new Map([
+      ["b", new Set([3])],
+      ["c", new Set([4])],
     ])
   ),
-  new MapDeepEqual([
-    ["a", new SetDeepEqual([1])],
-    ["b", new SetDeepEqual([2, 3])],
-    ["c", new SetDeepEqual([4])]
+  new Map([
+    ["a", new Set([1])],
+    ["b", new Set([2, 3])],
+    ["c", new Set([4])],
   ])
 );
 
-assert.deepEqual(
-  new SetDeepEqual([1]).merge(new SetDeepEqual([2])),
-  new SetDeepEqual([1, 2])
-);
+assert.deepEqual(new Set([1]).merge(new Set([2])), new Set([1, 2]));
 ```
 
-## `toJSON()`
+### `toJSON()`
 
 ```js
-assert(JSON.stringify(new MapDeepEqual([["a", 1]])) === `[["a",1]]`);
-assert(JSON.stringify(new SetDeepEqual([1, 2])) === `[1,2]`);
+assert(JSON.stringify(new Map([["a", 1]])) === `[["a",1]]`);
+assert(JSON.stringify(new Set([1, 2])) === `[1,2]`);
 ```
 
-# Related Work
+## Related Work
 
-## People Discussing the Issue
+### People Discussing the Issue
 
 - https://2ality.com/2015/01/es6-maps-sets.html#why-can’t-i-configure-how-maps-and-sets-compare-keys-and-values%3F
 - https://stackoverflow.com/questions/21838436/map-using-tuples-or-objects
 - https://esdiscuss.org/topic/maps-with-object-keys
 - https://medium.com/@modernserf/the-tyranny-of-triple-equals-de46cc0c5723
 
-## Other Libraries That Implementation Alternative Collections
+### Other Libraries That Implementation Alternative Collections
 
 - https://immutable-js.github.io/immutable-js/
 - http://swannodette.github.io/mori/
@@ -156,7 +155,7 @@ assert(JSON.stringify(new SetDeepEqual([1, 2])) === `[1,2]`);
 
 The advantages of **Collections Deep Equal** over these libraries are:
 
-1. You don’t have to buy into completely new data structures like Immutable.js’s Records. These other data structures may have different APIs and therefore a bit of a learning curve; they may be more difficult to inspect in debuggers; they may not work well with other libraries, forcing you to convert back and forth; and they may annoying to use in TypeScript.
+1. You don’t have to buy into completely new data structures like Immutable.js’s Records. These other data structures may have different APIs and therefore have a bit of a learning curve; they may be more difficult to inspect in debuggers; they may not work well with other libraries, forcing you to convert back and forth; and they may annoying to use in TypeScript.
 
 2. The notion of equality is determined by the data structures, not by the elements. In most of these libraries, elements are forced to implement `equals()` and `hash()`, which makes sense in a object-oriented style, but not in a functional style.
 
@@ -164,7 +163,7 @@ The advantages of **Collections Deep Equal** over these libraries are:
 
 4. **Collections Deep Equal** is [so simple](src/index.ts) that you could maintain it yourself if it’s abandoned, like some of the packages above seem to have been. But don’t worry, **Collections Deep Equal** is being used in [my dissertation](https://github.com/leafac/yocto-cfa), so it’ll stick around.
 
-## Other Approaches to Immutability
+### Other Approaches to Immutability
 
 - https://immerjs.github.io/immer/docs/introduction
 - https://www.npmjs.com/package/seamless-immutable
@@ -173,7 +172,7 @@ The advantages of **Collections Deep Equal** over these libraries are:
 
 These libraries don’t provide new data structures. They’re just facilitating the use of immutable data structures, which may pave the way to a new notion of equality.
 
-## Very Similar But Incomplete Approaches
+### Very Similar But Incomplete Approaches
 
 - https://www.npmjs.com/package/es6-array-map
 - https://www.npmjs.com/package/valuecollection
@@ -181,7 +180,7 @@ These libraries don’t provide new data structures. They’re just facilitating
 
 These libraries are very similar to **Collections Deep Equal** in spirit, but their implementations are either incomplete, or they lack type definitions, and so forth.
 
-## Definitive Solutions
+### Definitive Solutions
 
 - https://github.com/tc39/proposal-record-tuple
 - https://github.com/sebmarkbage/ecmascript-immutable-data-structures

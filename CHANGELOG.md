@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.0.0] - 2020-06-26
+
+### Changed
+
+- The names of the exports are now `Map` and `Set`, with the intent of overriding the native implementation on import.
+
 ## [1.1.0] - 2020-03-24
 
 ### Changed
@@ -24,7 +30,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Initial release with `MapDeepEqual` and `SetDeepEqual`.
 
-[unreleased]: https://github.com/leafac/shiki-latex/compare/1.1.0...HEAD
-[1.1.0]: https://github.com/leafac/shiki-latex/compare/1.0.1...1.1.0
-[1.0.1]: https://github.com/leafac/shiki-latex/compare/1.0.0...1.0.1
-[1.0.0]: https://github.com/leafac/shiki-latex/releases/tag/1.0.0
+[unreleased]: https://github.com/leafac/collections-deep-equal/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/leafac/collections-deep-equal/compare/1.1.0...2.0.0
+[1.1.0]: https://github.com/leafac/collections-deep-equal/compare/1.0.1...1.1.0
+[1.0.1]: https://github.com/leafac/collections-deep-equal/compare/1.0.0...1.0.1
+[1.0.0]: https://github.com/leafac/collections-deep-equal/releases/tag/1.0.0

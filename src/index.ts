@@ -1,6 +1,8 @@
-import { isDeepStrictEqual } from "util";
+export { MapDeepEqual as Map, SetDeepEqual as Set };
 
-export class MapDeepEqual<K, V> extends Map<K, V> {
+import * as util from "util";
+
+class MapDeepEqual<K, V> extends Map<K, V> {
   delete(key: K): boolean {
     return super.delete(canonicalize(this, key));
   }
@@ -18,16 +20,23 @@ export class MapDeepEqual<K, V> extends Map<K, V> {
   }
 
   merge(other: MapDeepEqual<K, V>): this {
-    other.forEach((otherValue, key) => {
+    for (const [key, otherValue] of other) {
       const thisValue = this.get(key);
-      if (thisValue === undefined) return this.set(key, otherValue);
-      if (typeof (thisValue as any).merge === "function")
-        return this.set(
+      if (thisValue === undefined) this.set(key, otherValue);
+      else if (typeof (thisValue as any).merge === "function")
+        this.set(
           key,
           new (thisValue as any).constructor(thisValue).merge(otherValue)
         );
-      throw new Error(`Merge conflict: ${JSON.stringify(key)}`);
-    });
+      else
+        throw new Error(
+          `Merge conflict: Key: ${JSON.stringify(
+            key
+          )} This Value: ${JSON.stringify(
+            thisValue
+          )} Other Value: ${JSON.stringify(otherValue)}`
+        );
+    }
     return this;
   }
 
@@ -36,7 +45,7 @@ export class MapDeepEqual<K, V> extends Map<K, V> {
   }
 }
 
-export class SetDeepEqual<T> extends Set<T> {
+class SetDeepEqual<T> extends Set<T> {
   add(value: T): this {
     return super.add(canonicalize(this, value));
   }
@@ -50,7 +59,7 @@ export class SetDeepEqual<T> extends Set<T> {
   }
 
   merge(other: SetDeepEqual<T>): this {
-    other.forEach((otherValue) => this.add(otherValue));
+    for (const otherValue of other) this.add(otherValue);
     return this;
   }
 
@@ -65,7 +74,7 @@ function canonicalize<T>(
 ) {
   return (
     [...collection.keys()].find((anElement) =>
-      isDeepStrictEqual(element, anElement)
+      util.isDeepStrictEqual(element, anElement)
     ) ?? element
   );
 }

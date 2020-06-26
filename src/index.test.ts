@@ -1,5 +1,5 @@
-import { MapDeepEqual, SetDeepEqual } from "./index";
-import { isDeepStrictEqual } from "util";
+import { Map, Set } from "./index";
+import * as util from "util";
 
 const object = { name: "Leandro", age: 29 };
 const deepEqualObject = { name: "Leandro", age: 29 };
@@ -7,7 +7,7 @@ const otherObject = { name: "John", age: 35 };
 const deepEqualOtherObject = { name: "John", age: 35 };
 
 describe("MapDeepEqual", () => {
-  const map = new MapDeepEqual([
+  const map = new Map([
     [object, "first value loses"],
     [deepEqualObject, "second value wins"],
   ]);
@@ -16,7 +16,7 @@ describe("MapDeepEqual", () => {
     expect(map.size).toBe(1);
     expect(map.get(object)).toBe("second value wins");
     expect(map.get(deepEqualObject)).toBe("second value wins");
-    const otherMap = new MapDeepEqual(map);
+    const otherMap = new Map(map);
     expect(map.size).toBe(1);
     expect(otherMap.size).toBe(1);
     otherMap.set(otherObject, "different value");
@@ -27,7 +27,7 @@ describe("MapDeepEqual", () => {
   });
 
   test("delete()", () => {
-    const otherMap = new MapDeepEqual(map);
+    const otherMap = new Map(map);
     expect(otherMap.size).toBe(1);
     expect(otherMap.delete(object)).toBe(true);
     expect(otherMap.delete(object)).toBe(false);
@@ -47,7 +47,7 @@ describe("MapDeepEqual", () => {
   });
 
   test("set()", () => {
-    const otherMap = new MapDeepEqual(map);
+    const otherMap = new Map(map);
     expect(otherMap.set(object, "new value")).toBe(otherMap);
     expect(otherMap.size).toBe(1);
     expect(otherMap.get(deepEqualObject)).toBe("new value");
@@ -58,15 +58,13 @@ describe("MapDeepEqual", () => {
 
   describe("merge()", () => {
     test("different keys", () => {
-      const otherMap = new MapDeepEqual(map);
-      const anotherMap = new MapDeepEqual([
-        [otherObject, "value to be merged"],
-      ]);
+      const otherMap = new Map(map);
+      const anotherMap = new Map([[otherObject, "value to be merged"]]);
       expect(otherMap.merge(anotherMap)).toBe(otherMap);
       expect(
-        isDeepStrictEqual(
+        util.isDeepStrictEqual(
           otherMap,
-          new MapDeepEqual([
+          new Map([
             [object, "second value wins"],
             [otherObject, "value to be merged"],
           ])
@@ -75,25 +73,23 @@ describe("MapDeepEqual", () => {
     });
 
     test("mergeable values", () => {
-      const map = new MapDeepEqual([[object, new SetDeepEqual([1])]]);
-      const otherMap = new MapDeepEqual([
-        [deepEqualObject, new SetDeepEqual([2])],
-      ]);
+      const map = new Map([[object, new Set([1])]]);
+      const otherMap = new Map([[deepEqualObject, new Set([2])]]);
       expect(
-        isDeepStrictEqual(
+        util.isDeepStrictEqual(
           map.merge(otherMap),
-          new MapDeepEqual([[object, new SetDeepEqual([1, 2])]])
+          new Map([[object, new Set([1, 2])]])
         )
       ).toBe(true);
     });
 
     test("non-mergeable values", () => {
-      const map = new MapDeepEqual([[object, new Set([1])]]);
-      const otherMap = new MapDeepEqual([[deepEqualObject, new Set([2])]]);
+      const map = new Map([[object, 1]]);
+      const otherMap = new Map([[deepEqualObject, 2]]);
       expect(() => {
         map.merge(otherMap);
       }).toThrowErrorMatchingInlineSnapshot(
-        `"Merge conflict: {\\"name\\":\\"Leandro\\",\\"age\\":29}"`
+        `"Merge conflict: Key: {\\"name\\":\\"Leandro\\",\\"age\\":29} This Value: 1 Other Value: 2"`
       );
     });
   });
@@ -107,7 +103,7 @@ describe("MapDeepEqual", () => {
   test("mutating a key", () => {
     const object = { name: "Leandro", age: 29 };
     const deepEqualObject = { name: "Leandro", age: 29 };
-    const map = new MapDeepEqual([[object, "a value"]]);
+    const map = new Map([[object, "a value"]]);
     expect(map.get(deepEqualObject)).toBe("a value");
     object.age = 30;
     expect(map.get(object)).toBe("a value");
@@ -119,10 +115,10 @@ describe("MapDeepEqual", () => {
 });
 
 describe("SetDeepEqual", () => {
-  const set = new SetDeepEqual([object, deepEqualObject]);
+  const set = new Set([object, deepEqualObject]);
   test("new", () => {
     expect(set.size).toBe(1);
-    const otherSet = new SetDeepEqual(set);
+    const otherSet = new Set(set);
     expect(set.size).toBe(1);
     expect(otherSet.size).toBe(1);
     otherSet.add(otherObject);
@@ -131,7 +127,7 @@ describe("SetDeepEqual", () => {
   });
 
   test("add()", () => {
-    const otherSet = new SetDeepEqual(set);
+    const otherSet = new Set(set);
     expect(otherSet.add(object)).toBe(otherSet);
     expect(otherSet.size).toBe(1);
     expect(otherSet.add(otherObject)).toBe(otherSet);
@@ -139,7 +135,7 @@ describe("SetDeepEqual", () => {
   });
 
   test("delete()", () => {
-    const otherSet = new SetDeepEqual(set);
+    const otherSet = new Set(set);
     expect(otherSet.size).toBe(1);
     expect(otherSet.delete(object)).toBe(true);
     expect(otherSet.delete(object)).toBe(false);
@@ -154,15 +150,12 @@ describe("SetDeepEqual", () => {
   });
 
   test("merge()", () => {
-    const otherSet = new SetDeepEqual(set);
+    const otherSet = new Set(set);
+    expect(otherSet.merge(new Set([deepEqualObject, otherObject]))).toBe(
+      otherSet
+    );
     expect(
-      otherSet.merge(new SetDeepEqual([deepEqualObject, otherObject]))
-    ).toBe(otherSet);
-    expect(
-      isDeepStrictEqual(
-        otherSet,
-        new SetDeepEqual([object, deepEqualOtherObject])
-      )
+      util.isDeepStrictEqual(otherSet, new Set([object, deepEqualOtherObject]))
     ).toBe(true);
   });
 
@@ -175,7 +168,7 @@ describe("SetDeepEqual", () => {
   test("mutating an element", () => {
     const object = { name: "Leandro", age: 29 };
     const deepEqualObject = { name: "Leandro", age: 29 };
-    const set = new SetDeepEqual([object]);
+    const set = new Set([object]);
     expect(set.has(deepEqualObject)).toBe(true);
     object.age = 30;
     expect(set.has(object)).toBe(true);
