@@ -161,7 +161,7 @@ The advantages of **Collections Deep Equal** over these libraries are:
 
 3. Immutability is possible and encouraged, but not enforced. For better and for worse.
 
-4. **Collections Deep Equal** is [so simple](src/index.ts) that you could maintain it yourself if it’s abandoned, like some of the packages above seem to have been. But don’t worry, **Collections Deep Equal** is being used in [my dissertation](https://github.com/leafac/yocto-cfa), so it’ll stick around.
+4. **Collections Deep Equal** is [so simple](source/index.ts) that you could maintain it yourself if it’s abandoned, like some of the packages above seem to have been. But don’t worry, **Collections Deep Equal** is being used in [my dissertation](https://github.com/leafac/yocto-cfa), so it’ll stick around.
 
 ### Other Approaches to Immutability
 

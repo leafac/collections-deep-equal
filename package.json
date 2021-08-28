@@ -8,7 +8,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "prettier --check src && tsc && jest"
+    "test": "prettier --check source && tsc && jest"
   },
   "devDependencies": {
     "@types/jest": "^25.1.3",
