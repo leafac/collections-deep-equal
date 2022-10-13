@@ -2,6 +2,12 @@
   "name": "collections-deep-equal",
   "version": "2.0.0",
   "description": "Collections like JavaScript’s native Maps and Sets, but using value equality (util.isDeepStrictEqual()) instead of reference equality",
+  "funding": [
+    "https://patreon.com/leafac",
+    "https://paypal.me/LeandroFacchinettiEU",
+    "https://github.com/sponsors/leafac",
+    "https://btc.com/34KJBgtaFYMtDqpSgMayw9qiKWg2GQXA9M"
+  ],
   "files": [
     "distribution/**"
   ],
@@ -33,5 +39,5 @@
   "bugs": {
     "url": "https://github.com/leafac/collections-deep-equal/issues"
   },
-  "homepage": "https://github.com/leafac/collections-deep-equal#readme"
+  "homepage": "https://github.com/leafac/collections-deep-equal"
 }
