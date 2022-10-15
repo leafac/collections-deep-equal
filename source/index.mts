@@ -80,13 +80,15 @@ function canonicalize<T>(
 }
 
 if (process.env.TEST === "collections-deep-equal") {
+  const Map = MapDeepEqual;
+  const Set = SetDeepEqual;
   const object = { name: "Leandro", age: 29 };
   const deepEqualObject = { name: "Leandro", age: 29 };
   const otherObject = { name: "John", age: 35 };
   const deepEqualOtherObject = { name: "John", age: 35 };
 
   describe("MapDeepEqual", () => {
-    const map = new MapDeepEqual([
+    const map = new Map([
       [object, "first value loses"],
       [deepEqualObject, "second value wins"],
     ]);
@@ -95,7 +97,7 @@ if (process.env.TEST === "collections-deep-equal") {
       expect(map.size).toBe(1);
       expect(map.get(object)).toBe("second value wins");
       expect(map.get(deepEqualObject)).toBe("second value wins");
-      const otherMap = new MapDeepEqual(map);
+      const otherMap = new Map(map);
       expect(map.size).toBe(1);
       expect(otherMap.size).toBe(1);
       otherMap.set(otherObject, "different value");
@@ -106,7 +108,7 @@ if (process.env.TEST === "collections-deep-equal") {
     });
 
     test("delete()", () => {
-      const otherMap = new MapDeepEqual(map);
+      const otherMap = new Map(map);
       expect(otherMap.size).toBe(1);
       expect(otherMap.delete(object)).toBe(true);
       expect(otherMap.delete(object)).toBe(false);
@@ -126,7 +128,7 @@ if (process.env.TEST === "collections-deep-equal") {
     });
 
     test("set()", () => {
-      const otherMap = new MapDeepEqual(map);
+      const otherMap = new Map(map);
       expect(otherMap.set(object, "new value")).toBe(otherMap);
       expect(otherMap.size).toBe(1);
       expect(otherMap.get(deepEqualObject)).toBe("new value");
@@ -137,15 +139,13 @@ if (process.env.TEST === "collections-deep-equal") {
 
     describe("merge()", () => {
       test("different keys", () => {
-        const otherMap = new MapDeepEqual(map);
-        const anotherMap = new MapDeepEqual([
-          [otherObject, "value to be merged"],
-        ]);
+        const otherMap = new Map(map);
+        const anotherMap = new Map([[otherObject, "value to be merged"]]);
         expect(otherMap.merge(anotherMap)).toBe(otherMap);
         expect(
           util.isDeepStrictEqual(
             otherMap,
-            new MapDeepEqual([
+            new Map([
               [object, "second value wins"],
               [otherObject, "value to be merged"],
             ])
@@ -154,21 +154,19 @@ if (process.env.TEST === "collections-deep-equal") {
       });
 
       test("mergeable values", () => {
-        const map = new MapDeepEqual([[object, new SetDeepEqual([1])]]);
-        const otherMap = new MapDeepEqual([
-          [deepEqualObject, new SetDeepEqual([2])],
-        ]);
+        const map = new Map([[object, new Set([1])]]);
+        const otherMap = new Map([[deepEqualObject, new Set([2])]]);
         expect(
           util.isDeepStrictEqual(
             map.merge(otherMap),
-            new MapDeepEqual([[object, new SetDeepEqual([1, 2])]])
+            new Map([[object, new Set([1, 2])]])
           )
         ).toBe(true);
       });
 
       test("non-mergeable values", () => {
-        const map = new MapDeepEqual([[object, 1]]);
-        const otherMap = new MapDeepEqual([[deepEqualObject, 2]]);
+        const map = new Map([[object, 1]]);
+        const otherMap = new Map([[deepEqualObject, 2]]);
         expect(() => {
           map.merge(otherMap);
         }).toThrowErrorMatchingInlineSnapshot(
@@ -186,7 +184,7 @@ if (process.env.TEST === "collections-deep-equal") {
     test("mutating a key", () => {
       const object = { name: "Leandro", age: 29 };
       const deepEqualObject = { name: "Leandro", age: 29 };
-      const map = new MapDeepEqual([[object, "a value"]]);
+      const map = new Map([[object, "a value"]]);
       expect(map.get(deepEqualObject)).toBe("a value");
       object.age = 30;
       expect(map.get(object)).toBe("a value");
@@ -198,10 +196,10 @@ if (process.env.TEST === "collections-deep-equal") {
   });
 
   describe("SetDeepEqual", () => {
-    const set = new SetDeepEqual([object, deepEqualObject]);
+    const set = new Set([object, deepEqualObject]);
     test("new", () => {
       expect(set.size).toBe(1);
-      const otherSet = new SetDeepEqual(set);
+      const otherSet = new Set(set);
       expect(set.size).toBe(1);
       expect(otherSet.size).toBe(1);
       otherSet.add(otherObject);
@@ -210,7 +208,7 @@ if (process.env.TEST === "collections-deep-equal") {
     });
 
     test("add()", () => {
-      const otherSet = new SetDeepEqual(set);
+      const otherSet = new Set(set);
       expect(otherSet.add(object)).toBe(otherSet);
       expect(otherSet.size).toBe(1);
       expect(otherSet.add(otherObject)).toBe(otherSet);
@@ -218,7 +216,7 @@ if (process.env.TEST === "collections-deep-equal") {
     });
 
     test("delete()", () => {
-      const otherSet = new SetDeepEqual(set);
+      const otherSet = new Set(set);
       expect(otherSet.size).toBe(1);
       expect(otherSet.delete(object)).toBe(true);
       expect(otherSet.delete(object)).toBe(false);
@@ -233,14 +231,14 @@ if (process.env.TEST === "collections-deep-equal") {
     });
 
     test("merge()", () => {
-      const otherSet = new SetDeepEqual(set);
-      expect(
-        otherSet.merge(new SetDeepEqual([deepEqualObject, otherObject]))
-      ).toBe(otherSet);
+      const otherSet = new Set(set);
+      expect(otherSet.merge(new Set([deepEqualObject, otherObject]))).toBe(
+        otherSet
+      );
       expect(
         util.isDeepStrictEqual(
           otherSet,
-          new SetDeepEqual([object, deepEqualOtherObject])
+          new Set([object, deepEqualOtherObject])
         )
       ).toBe(true);
     });
@@ -254,7 +252,7 @@ if (process.env.TEST === "collections-deep-equal") {
     test("mutating an element", () => {
       const object = { name: "Leandro", age: 29 };
       const deepEqualObject = { name: "Leandro", age: 29 };
-      const set = new SetDeepEqual([object]);
+      const set = new Set([object]);
       expect(set.has(deepEqualObject)).toBe(true);
       object.age = 30;
       expect(set.has(object)).toBe(true);
