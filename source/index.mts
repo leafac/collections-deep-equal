@@ -105,7 +105,7 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(otherMap.size).toBe(2);
     expect(otherMap.get(object)).toBe("second value wins");
     expect(otherMap.get(otherObject)).toBe("different value");
-  });
+  })();
 
   (() => {
     const otherMap = new Map(map);
@@ -114,18 +114,18 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(otherMap.delete(object)).toBe(false);
     expect(map.size).toBe(1);
     expect(otherMap.size).toBe(0);
-  });
+  })();
 
   (() => {
     expect(map.get(object)).toBe(map.get(deepEqualObject));
     expect(map.get(otherObject)).toBeUndefined();
-  });
+  })();
 
   (() => {
     expect(map.has(object)).toBe(true);
     expect(map.has(deepEqualObject)).toBe(true);
     expect(map.has(otherObject)).toBe(false);
-  });
+  })();
 
   (() => {
     const otherMap = new Map(map);
@@ -135,7 +135,7 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(otherMap.set(otherObject, "new key")).toBe(otherMap);
     expect(otherMap.size).toBe(2);
     expect(otherMap.get(deepEqualOtherObject)).toBe("new key");
-  });
+  })();
 
   describe("merge()", () => {
     (() => {
@@ -151,7 +151,7 @@ if (process.env.TEST === "collections-deep-equal") {
           ])
         )
       ).toBe(true);
-    });
+    })();
 
     (() => {
       const map = new Map([[object, new Set([1])]]);
@@ -162,7 +162,7 @@ if (process.env.TEST === "collections-deep-equal") {
           new Map([[object, new Set([1, 2])]])
         )
       ).toBe(true);
-    });
+    })();
 
     (() => {
       const map = new Map([[object, 1]]);
@@ -172,14 +172,14 @@ if (process.env.TEST === "collections-deep-equal") {
       }).toThrowErrorMatchingInlineSnapshot(
         `"Merge conflict: Key: {\\"name\\":\\"Leandro\\",\\"age\\":29} This Value: 1 Other Value: 2"`
       );
-    });
+    })();
   });
 
   (() => {
     expect(JSON.stringify(map)).toMatchInlineSnapshot(
       `"[[{\\"name\\":\\"Leandro\\",\\"age\\":29},\\"second value wins\\"]]"`
     );
-  });
+  })();
 
   (() => {
     const object = { name: "Leandro", age: 29 };
@@ -192,7 +192,7 @@ if (process.env.TEST === "collections-deep-equal") {
     deepEqualObject.age = 30;
     expect(map.get(object)).toBe("a value");
     expect(map.get(deepEqualObject)).toBe("a value");
-  });
+  })();
 
   const set = new Set([object, deepEqualObject]);
   (() => {
@@ -203,7 +203,7 @@ if (process.env.TEST === "collections-deep-equal") {
     otherSet.add(otherObject);
     expect(set.size).toBe(1);
     expect(otherSet.size).toBe(2);
-  });
+  })();
 
   (() => {
     const otherSet = new Set(set);
@@ -211,7 +211,7 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(otherSet.size).toBe(1);
     expect(otherSet.add(otherObject)).toBe(otherSet);
     expect(otherSet.size).toBe(2);
-  });
+  })();
 
   (() => {
     const otherSet = new Set(set);
@@ -220,13 +220,13 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(otherSet.delete(object)).toBe(false);
     expect(set.size).toBe(1);
     expect(otherSet.size).toBe(0);
-  });
+  })();
 
   (() => {
     expect(set.has(object)).toBe(true);
     expect(set.has(deepEqualObject)).toBe(true);
     expect(set.has(otherObject)).toBe(false);
-  });
+  })();
 
   (() => {
     const otherSet = new Set(set);
@@ -236,13 +236,13 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(
       util.isDeepStrictEqual(otherSet, new Set([object, deepEqualOtherObject]))
     ).toBe(true);
-  });
+  })();
 
   (() => {
     expect(JSON.stringify(set)).toMatchInlineSnapshot(
       `"[{\\"name\\":\\"Leandro\\",\\"age\\":29}]"`
     );
-  });
+  })();
 
   (() => {
     const object = { name: "Leandro", age: 29 };
@@ -255,5 +255,5 @@ if (process.env.TEST === "collections-deep-equal") {
     deepEqualObject.age = 30;
     expect(set.has(object)).toBe(true);
     expect(set.has(deepEqualObject)).toBe(true);
-  });
+  })();
 }
