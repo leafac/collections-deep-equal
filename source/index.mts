@@ -82,6 +82,7 @@ function canonicalize<T>(
 if (process.env.TEST === "collections-deep-equal") {
   const Map = MapDeepEqual;
   const Set = SetDeepEqual;
+
   const object = { name: "Leandro", age: 29 };
   const deepEqualObject = { name: "Leandro", age: 29 };
   const otherObject = { name: "John", age: 35 };
