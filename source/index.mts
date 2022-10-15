@@ -93,7 +93,7 @@ if (process.env.TEST === "collections-deep-equal") {
     [deepEqualObject, "second value wins"],
   ]);
 
-  ("new", () => {
+  (() => {
     expect(map.size).toBe(1);
     expect(map.get(object)).toBe("second value wins");
     expect(map.get(deepEqualObject)).toBe("second value wins");
@@ -107,7 +107,7 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(otherMap.get(otherObject)).toBe("different value");
   });
 
-  ("delete()", () => {
+  (() => {
     const otherMap = new Map(map);
     expect(otherMap.size).toBe(1);
     expect(otherMap.delete(object)).toBe(true);
@@ -116,18 +116,18 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(otherMap.size).toBe(0);
   });
 
-  ("get()", () => {
+  (() => {
     expect(map.get(object)).toBe(map.get(deepEqualObject));
     expect(map.get(otherObject)).toBeUndefined();
   });
 
-  ("has()", () => {
+  (() => {
     expect(map.has(object)).toBe(true);
     expect(map.has(deepEqualObject)).toBe(true);
     expect(map.has(otherObject)).toBe(false);
   });
 
-  ("set()", () => {
+  (() => {
     const otherMap = new Map(map);
     expect(otherMap.set(object, "new value")).toBe(otherMap);
     expect(otherMap.size).toBe(1);
@@ -138,7 +138,7 @@ if (process.env.TEST === "collections-deep-equal") {
   });
 
   describe("merge()", () => {
-    ("different keys", () => {
+    (() => {
       const otherMap = new Map(map);
       const anotherMap = new Map([[otherObject, "value to be merged"]]);
       expect(otherMap.merge(anotherMap)).toBe(otherMap);
@@ -153,7 +153,7 @@ if (process.env.TEST === "collections-deep-equal") {
       ).toBe(true);
     });
 
-    ("mergeable values", () => {
+    (() => {
       const map = new Map([[object, new Set([1])]]);
       const otherMap = new Map([[deepEqualObject, new Set([2])]]);
       expect(
@@ -164,7 +164,7 @@ if (process.env.TEST === "collections-deep-equal") {
       ).toBe(true);
     });
 
-    ("non-mergeable values", () => {
+    (() => {
       const map = new Map([[object, 1]]);
       const otherMap = new Map([[deepEqualObject, 2]]);
       expect(() => {
@@ -175,13 +175,13 @@ if (process.env.TEST === "collections-deep-equal") {
     });
   });
 
-  ("toJSON()", () => {
+  (() => {
     expect(JSON.stringify(map)).toMatchInlineSnapshot(
       `"[[{\\"name\\":\\"Leandro\\",\\"age\\":29},\\"second value wins\\"]]"`
     );
   });
 
-  ("mutating a key", () => {
+  (() => {
     const object = { name: "Leandro", age: 29 };
     const deepEqualObject = { name: "Leandro", age: 29 };
     const map = new Map([[object, "a value"]]);
@@ -195,7 +195,7 @@ if (process.env.TEST === "collections-deep-equal") {
   });
 
   const set = new Set([object, deepEqualObject]);
-  ("new", () => {
+  (() => {
     expect(set.size).toBe(1);
     const otherSet = new Set(set);
     expect(set.size).toBe(1);
@@ -205,7 +205,7 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(otherSet.size).toBe(2);
   });
 
-  ("add()", () => {
+  (() => {
     const otherSet = new Set(set);
     expect(otherSet.add(object)).toBe(otherSet);
     expect(otherSet.size).toBe(1);
@@ -213,7 +213,7 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(otherSet.size).toBe(2);
   });
 
-  ("delete()", () => {
+  (() => {
     const otherSet = new Set(set);
     expect(otherSet.size).toBe(1);
     expect(otherSet.delete(object)).toBe(true);
@@ -222,13 +222,13 @@ if (process.env.TEST === "collections-deep-equal") {
     expect(otherSet.size).toBe(0);
   });
 
-  ("has()", () => {
+  (() => {
     expect(set.has(object)).toBe(true);
     expect(set.has(deepEqualObject)).toBe(true);
     expect(set.has(otherObject)).toBe(false);
   });
 
-  ("merge()", () => {
+  (() => {
     const otherSet = new Set(set);
     expect(otherSet.merge(new Set([deepEqualObject, otherObject]))).toBe(
       otherSet
@@ -238,13 +238,13 @@ if (process.env.TEST === "collections-deep-equal") {
     ).toBe(true);
   });
 
-  ("toJSON()", () => {
+  (() => {
     expect(JSON.stringify(set)).toMatchInlineSnapshot(
       `"[{\\"name\\":\\"Leandro\\",\\"age\\":29}]"`
     );
   });
 
-  ("mutating an element", () => {
+  (() => {
     const object = { name: "Leandro", age: 29 };
     const deepEqualObject = { name: "Leandro", age: 29 };
     const set = new Set([object]);
