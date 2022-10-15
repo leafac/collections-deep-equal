@@ -6,8 +6,8 @@
     "data-structures"
   ],
   "homepage": "https://github.com/leafac/collections-deep-equal",
+  "repository": "https://github.com/leafac/collections-deep-equal",
   "bugs": "https://github.com/leafac/collections-deep-equal/issues",
-  "repository": "leafac/collections-deep-equal",
   "funding": [
     "https://patreon.com/leafac",
     "https://paypal.me/LeandroFacchinettiEU",
