@@ -95,179 +95,159 @@ if (process.env.TEST === "collections-deep-equal") {
   ]);
 
   (() => {
-    assert.equal(map.size,1);
-    assert.equal(map.get(object),"second value wins");
-    assert.equal(map.get(deepEqualObject),"second value wins");
+    assert.equal(map.size, 1);
+    assert.equal(map.get(object), "second value wins");
+    assert.equal(map.get(deepEqualObject), "second value wins");
     const otherMap = new Map(map);
-    assert.equal(map.size,1);
-    assert.equal(otherMap.size,1);
+    assert.equal(map.size, 1);
+    assert.equal(otherMap.size, 1);
     otherMap.set(otherObject, "different value");
-    assert.equal(map.size,1);
-    assert.equal(otherMap.size,2);
-    assert.equal(otherMap.get(object),"second value wins");
-    assert.equal(otherMap.get(otherObject),"different value");
+    assert.equal(map.size, 1);
+    assert.equal(otherMap.size, 2);
+    assert.equal(otherMap.get(object), "second value wins");
+    assert.equal(otherMap.get(otherObject), "different value");
   })();
 
   (() => {
     const otherMap = new Map(map);
-    assert.equal(otherMap.size,1);
-    assert.equal(otherMap.delete(object),true);
-    assert.equal(otherMap.delete(object),false);
-    assert.equal(map.size,1);
-    assert.equal(otherMap.size,0);
+    assert.equal(otherMap.size, 1);
+    assert.equal(otherMap.delete(object), true);
+    assert.equal(otherMap.delete(object), false);
+    assert.equal(map.size, 1);
+    assert.equal(otherMap.size, 0);
   })();
 
   (() => {
-    assert.equal(map.get(object),map.get(deepEqualObject));
-    assert.equal(map.get(otherObject),ndefined();
+    assert.equal(map.get(object), map.get(deepEqualObject));
+    assert.equal(map.get(otherObject), undefined);
   })();
 
   (() => {
-    assert.equal(map.has(object),true);
-    assert.equal(map.has(deepEqualObject),true);
-    assert.equal(map.has(otherObject),false);
+    assert.equal(map.has(object), true);
+    assert.equal(map.has(deepEqualObject), true);
+    assert.equal(map.has(otherObject), false);
   })();
 
   (() => {
     const otherMap = new Map(map);
-    assert.equal(otherMap.set(object, "new value"),otherMap);
-    assert.equal(otherMap.size,1);
-    assert.equal(otherMap.get(deepEqualObject),"new value");
-    assert.equal(otherMap.set(otherObject, "new key"),otherMap);
-    assert.equal(otherMap.size,2);
-    assert.equal(otherMap.get(deepEqualOtherObject),"new key");
+    assert.equal(otherMap.set(object, "new value"), otherMap);
+    assert.equal(otherMap.size, 1);
+    assert.equal(otherMap.get(deepEqualObject), "new value");
+    assert.equal(otherMap.set(otherObject, "new key"), otherMap);
+    assert.equal(otherMap.size, 2);
+    assert.equal(otherMap.get(deepEqualOtherObject), "new key");
   })();
 
-  describe("merge()", () => {
-    (() => {
-      const otherMap = new Map(map);
-      const anotherMap = new Map([[otherObject, "value to be merged"]]);
-      assert.equal(otherMap.merge(anotherMap),otherMap);
-      assert
-        .equal(
-          util.isDeepStrictEqual(
-            otherMap,
-            new Map([
-              [object, "second value wins"],
-              [otherObject, "value to be merged"],
-            ])
-          )
-        )
-      ,true);
-    })();
-
-    (() => {
-      const map = new Map([[object, new Set([1])]]);
-      const otherMap = new Map([[deepEqualObject, new Set([2])]]);
-      assert
-        .equal(
-          util.isDeepStrictEqual(
-            map.merge(otherMap),
-            new Map([[object, new Set([1, 2])]])
-          )
-        )
-      ,true);
-    })();
-
-    (() => {
-      const map = new Map([[object, 1]]);
-      const otherMap = new Map([[deepEqualObject, 2]]);
-      assert
-        .equal(() => {
-          map.merge(otherMap);
-        })
-        .toThrowErrorMatchingInlineSnapshot(
-          `"Merge conflict: Key: {\\"name\\":\\"Leandro\\",\\"age\\":29} This Value: 1 Other Value: 2"`
-        );
-    })();
-  });
+  (() => {
+    const otherMap = new Map(map);
+    const anotherMap = new Map([[otherObject, "value to be merged"]]);
+    assert.equal(otherMap.merge(anotherMap), otherMap);
+    assert.deepEqual(
+      otherMap,
+      new Map([
+        [object, "second value wins"],
+        [otherObject, "value to be merged"],
+      ])
+    );
+  })();
 
   (() => {
-    assert
-      .equal(JSON.stringify(map))
-      .toMatchInlineSnapshot(
-        `"[[{\\"name\\":\\"Leandro\\",\\"age\\":29},\\"second value wins\\"]]"`
+    const map = new Map([[object, new Set([1])]]);
+    const otherMap = new Map([[deepEqualObject, new Set([2])]]);
+    assert.deepEqual(map.merge(otherMap), new Map([[object, new Set([1, 2])]]));
+  })();
+
+  (() => {
+    const map = new Map([[object, 1]]);
+    const otherMap = new Map([[deepEqualObject, 2]]);
+    try {
+      map.merge(otherMap);
+      assert.fail();
+    } catch (error: any) {
+      assert.equal(
+        error.message,
+        `Merge conflict: Key: {"name":"Leandro","age":29} This Value: 1 Other Value: 2`
       );
+    }
+  })();
+
+  (() => {
+    assert.equal(
+      JSON.stringify(map),
+      `[[{"name":"Leandro","age":29},"second value wins"]]`
+    );
   })();
 
   (() => {
     const object = { name: "Leandro", age: 29 };
     const deepEqualObject = { name: "Leandro", age: 29 };
     const map = new Map([[object, "a value"]]);
-    assert.equal(map.get(deepEqualObject),"a value");
+    assert.equal(map.get(deepEqualObject), "a value");
     object.age = 30;
-    assert.equal(map.get(object),"a value");
-    assert.equal(map.get(deepEqualObject),ndefined();
+    assert.equal(map.get(object), "a value");
+    assert.equal(map.get(deepEqualObject), undefined);
     deepEqualObject.age = 30;
-    assert.equal(map.get(object),"a value");
-    assert.equal(map.get(deepEqualObject),"a value");
+    assert.equal(map.get(object), "a value");
+    assert.equal(map.get(deepEqualObject), "a value");
   })();
 
   const set = new Set([object, deepEqualObject]);
   (() => {
-    assert.equal(set.size,1);
+    assert.equal(set.size, 1);
     const otherSet = new Set(set);
-    assert.equal(set.size,1);
-    assert.equal(otherSet.size,1);
+    assert.equal(set.size, 1);
+    assert.equal(otherSet.size, 1);
     otherSet.add(otherObject);
-    assert.equal(set.size,1);
-    assert.equal(otherSet.size,2);
+    assert.equal(set.size, 1);
+    assert.equal(otherSet.size, 2);
   })();
 
   (() => {
     const otherSet = new Set(set);
-    assert.equal(otherSet.add(object),otherSet);
-    assert.equal(otherSet.size,1);
-    assert.equal(otherSet.add(otherObject),otherSet);
-    assert.equal(otherSet.size,2);
+    assert.equal(otherSet.add(object), otherSet);
+    assert.equal(otherSet.size, 1);
+    assert.equal(otherSet.add(otherObject), otherSet);
+    assert.equal(otherSet.size, 2);
   })();
 
   (() => {
     const otherSet = new Set(set);
-    assert.equal(otherSet.size,1);
-    assert.equal(otherSet.delete(object),true);
-    assert.equal(otherSet.delete(object),false);
-    assert.equal(set.size,1);
-    assert.equal(otherSet.size,0);
+    assert.equal(otherSet.size, 1);
+    assert.equal(otherSet.delete(object), true);
+    assert.equal(otherSet.delete(object), false);
+    assert.equal(set.size, 1);
+    assert.equal(otherSet.size, 0);
   })();
 
   (() => {
-    assert.equal(set.has(object),true);
-    assert.equal(set.has(deepEqualObject),true);
-    assert.equal(set.has(otherObject),false);
+    assert.equal(set.has(object), true);
+    assert.equal(set.has(deepEqualObject), true);
+    assert.equal(set.has(otherObject), false);
   })();
 
   (() => {
     const otherSet = new Set(set);
-    assert
-      .equal(otherSet.merge(new Set([deepEqualObject, otherObject])))
-    ,otherSet);
-    assert
-      .equal(
-        util.isDeepStrictEqual(
-          otherSet,
-          new Set([object, deepEqualOtherObject])
-        )
-      )
-    ,true);
+    assert.deepEqual(
+      otherSet.merge(new Set([deepEqualObject, otherObject])),
+      otherSet
+    );
+    assert.deepEqual(otherSet, new Set([object, deepEqualOtherObject]));
   })();
 
   (() => {
-    assert
-      .equal(JSON.stringify(set))
-      .toMatchInlineSnapshot(`"[{\\"name\\":\\"Leandro\\",\\"age\\":29}]"`);
+    assert.equal(JSON.stringify(set), `[{"name":"Leandro","age":29}]`);
   })();
 
   (() => {
     const object = { name: "Leandro", age: 29 };
     const deepEqualObject = { name: "Leandro", age: 29 };
     const set = new Set([object]);
-    assert.equal(set.has(deepEqualObject),true);
+    assert.equal(set.has(deepEqualObject), true);
     object.age = 30;
-    assert.equal(set.has(object),true);
-    assert.equal(set.has(deepEqualObject),false);
+    assert.equal(set.has(object), true);
+    assert.equal(set.has(deepEqualObject), false);
     deepEqualObject.age = 30;
-    assert.equal(set.has(object),true);
-    assert.equal(set.has(deepEqualObject),true);
+    assert.equal(set.has(object), true);
+    assert.equal(set.has(deepEqualObject), true);
   })();
 }
