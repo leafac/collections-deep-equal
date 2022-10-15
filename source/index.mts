@@ -95,54 +95,54 @@ if (process.env.TEST === "collections-deep-equal") {
   ]);
 
   (() => {
-    assert.equal(map.size).toBe(1);
-    assert.equal(map.get(object)).toBe("second value wins");
-    assert.equal(map.get(deepEqualObject)).toBe("second value wins");
+    assert.equal(map.size,1);
+    assert.equal(map.get(object),"second value wins");
+    assert.equal(map.get(deepEqualObject),"second value wins");
     const otherMap = new Map(map);
-    assert.equal(map.size).toBe(1);
-    assert.equal(otherMap.size).toBe(1);
+    assert.equal(map.size,1);
+    assert.equal(otherMap.size,1);
     otherMap.set(otherObject, "different value");
-    assert.equal(map.size).toBe(1);
-    assert.equal(otherMap.size).toBe(2);
-    assert.equal(otherMap.get(object)).toBe("second value wins");
-    assert.equal(otherMap.get(otherObject)).toBe("different value");
+    assert.equal(map.size,1);
+    assert.equal(otherMap.size,2);
+    assert.equal(otherMap.get(object),"second value wins");
+    assert.equal(otherMap.get(otherObject),"different value");
   })();
 
   (() => {
     const otherMap = new Map(map);
-    assert.equal(otherMap.size).toBe(1);
-    assert.equal(otherMap.delete(object)).toBe(true);
-    assert.equal(otherMap.delete(object)).toBe(false);
-    assert.equal(map.size).toBe(1);
-    assert.equal(otherMap.size).toBe(0);
+    assert.equal(otherMap.size,1);
+    assert.equal(otherMap.delete(object),true);
+    assert.equal(otherMap.delete(object),false);
+    assert.equal(map.size,1);
+    assert.equal(otherMap.size,0);
   })();
 
   (() => {
-    assert.equal(map.get(object)).toBe(map.get(deepEqualObject));
-    assert.equal(map.get(otherObject)).toBeUndefined();
+    assert.equal(map.get(object),map.get(deepEqualObject));
+    assert.equal(map.get(otherObject),ndefined();
   })();
 
   (() => {
-    assert.equal(map.has(object)).toBe(true);
-    assert.equal(map.has(deepEqualObject)).toBe(true);
-    assert.equal(map.has(otherObject)).toBe(false);
+    assert.equal(map.has(object),true);
+    assert.equal(map.has(deepEqualObject),true);
+    assert.equal(map.has(otherObject),false);
   })();
 
   (() => {
     const otherMap = new Map(map);
-    assert.equal(otherMap.set(object, "new value")).toBe(otherMap);
-    assert.equal(otherMap.size).toBe(1);
-    assert.equal(otherMap.get(deepEqualObject)).toBe("new value");
-    assert.equal(otherMap.set(otherObject, "new key")).toBe(otherMap);
-    assert.equal(otherMap.size).toBe(2);
-    assert.equal(otherMap.get(deepEqualOtherObject)).toBe("new key");
+    assert.equal(otherMap.set(object, "new value"),otherMap);
+    assert.equal(otherMap.size,1);
+    assert.equal(otherMap.get(deepEqualObject),"new value");
+    assert.equal(otherMap.set(otherObject, "new key"),otherMap);
+    assert.equal(otherMap.size,2);
+    assert.equal(otherMap.get(deepEqualOtherObject),"new key");
   })();
 
   describe("merge()", () => {
     (() => {
       const otherMap = new Map(map);
       const anotherMap = new Map([[otherObject, "value to be merged"]]);
-      assert.equal(otherMap.merge(anotherMap)).toBe(otherMap);
+      assert.equal(otherMap.merge(anotherMap),otherMap);
       assert
         .equal(
           util.isDeepStrictEqual(
@@ -153,7 +153,7 @@ if (process.env.TEST === "collections-deep-equal") {
             ])
           )
         )
-        .toBe(true);
+      ,true);
     })();
 
     (() => {
@@ -166,7 +166,7 @@ if (process.env.TEST === "collections-deep-equal") {
             new Map([[object, new Set([1, 2])]])
           )
         )
-        .toBe(true);
+      ,true);
     })();
 
     (() => {
@@ -194,54 +194,54 @@ if (process.env.TEST === "collections-deep-equal") {
     const object = { name: "Leandro", age: 29 };
     const deepEqualObject = { name: "Leandro", age: 29 };
     const map = new Map([[object, "a value"]]);
-    assert.equal(map.get(deepEqualObject)).toBe("a value");
+    assert.equal(map.get(deepEqualObject),"a value");
     object.age = 30;
-    assert.equal(map.get(object)).toBe("a value");
-    assert.equal(map.get(deepEqualObject)).toBeUndefined();
+    assert.equal(map.get(object),"a value");
+    assert.equal(map.get(deepEqualObject),ndefined();
     deepEqualObject.age = 30;
-    assert.equal(map.get(object)).toBe("a value");
-    assert.equal(map.get(deepEqualObject)).toBe("a value");
+    assert.equal(map.get(object),"a value");
+    assert.equal(map.get(deepEqualObject),"a value");
   })();
 
   const set = new Set([object, deepEqualObject]);
   (() => {
-    assert.equal(set.size).toBe(1);
+    assert.equal(set.size,1);
     const otherSet = new Set(set);
-    assert.equal(set.size).toBe(1);
-    assert.equal(otherSet.size).toBe(1);
+    assert.equal(set.size,1);
+    assert.equal(otherSet.size,1);
     otherSet.add(otherObject);
-    assert.equal(set.size).toBe(1);
-    assert.equal(otherSet.size).toBe(2);
+    assert.equal(set.size,1);
+    assert.equal(otherSet.size,2);
   })();
 
   (() => {
     const otherSet = new Set(set);
-    assert.equal(otherSet.add(object)).toBe(otherSet);
-    assert.equal(otherSet.size).toBe(1);
-    assert.equal(otherSet.add(otherObject)).toBe(otherSet);
-    assert.equal(otherSet.size).toBe(2);
+    assert.equal(otherSet.add(object),otherSet);
+    assert.equal(otherSet.size,1);
+    assert.equal(otherSet.add(otherObject),otherSet);
+    assert.equal(otherSet.size,2);
   })();
 
   (() => {
     const otherSet = new Set(set);
-    assert.equal(otherSet.size).toBe(1);
-    assert.equal(otherSet.delete(object)).toBe(true);
-    assert.equal(otherSet.delete(object)).toBe(false);
-    assert.equal(set.size).toBe(1);
-    assert.equal(otherSet.size).toBe(0);
+    assert.equal(otherSet.size,1);
+    assert.equal(otherSet.delete(object),true);
+    assert.equal(otherSet.delete(object),false);
+    assert.equal(set.size,1);
+    assert.equal(otherSet.size,0);
   })();
 
   (() => {
-    assert.equal(set.has(object)).toBe(true);
-    assert.equal(set.has(deepEqualObject)).toBe(true);
-    assert.equal(set.has(otherObject)).toBe(false);
+    assert.equal(set.has(object),true);
+    assert.equal(set.has(deepEqualObject),true);
+    assert.equal(set.has(otherObject),false);
   })();
 
   (() => {
     const otherSet = new Set(set);
     assert
       .equal(otherSet.merge(new Set([deepEqualObject, otherObject])))
-      .toBe(otherSet);
+    ,otherSet);
     assert
       .equal(
         util.isDeepStrictEqual(
@@ -249,7 +249,7 @@ if (process.env.TEST === "collections-deep-equal") {
           new Set([object, deepEqualOtherObject])
         )
       )
-      .toBe(true);
+    ,true);
   })();
 
   (() => {
@@ -262,12 +262,12 @@ if (process.env.TEST === "collections-deep-equal") {
     const object = { name: "Leandro", age: 29 };
     const deepEqualObject = { name: "Leandro", age: 29 };
     const set = new Set([object]);
-    assert.equal(set.has(deepEqualObject)).toBe(true);
+    assert.equal(set.has(deepEqualObject),true);
     object.age = 30;
-    assert.equal(set.has(object)).toBe(true);
-    assert.equal(set.has(deepEqualObject)).toBe(false);
+    assert.equal(set.has(object),true);
+    assert.equal(set.has(deepEqualObject),false);
     deepEqualObject.age = 30;
-    assert.equal(set.has(object)).toBe(true);
-    assert.equal(set.has(deepEqualObject)).toBe(true);
+    assert.equal(set.has(object),true);
+    assert.equal(set.has(deepEqualObject),true);
   })();
 }
