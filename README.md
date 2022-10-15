@@ -187,3 +187,25 @@ These libraries are very similar to **Collections Deep Equal** in spirit, but th
 - https://github.com/DavidBruant/Map-Set.prototype.toJSON
 
 Proposals to change the JavaScript language in ways that would make this package obsolete.
+
+## Changelog
+
+### 3.0.0 · 2022-10-15
+
+- Modernized the codebase & turned it into an [ESM-only package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
+
+### 2.0.0 · 2020-06-26
+
+- The names of the exports are now `Map` and `Set`, with the intent of overriding the native implementation on import.
+
+### 1.1.0 · 2020-03-24
+
+- Use [`util.isDeepStrictEqual()`](https://nodejs.org/api/util.html#util_util_isdeepstrictequal_val1_val2) instead of [`deep-equal`](https://www.npmjs.com/package/deep-equal).
+
+### 1.0.1 · 2020-03-23
+
+- Better `README` formatting.
+
+### 1.0.0 · 2020-03-04
+
+- Initial release with `MapDeepEqual` and `SetDeepEqual`.
