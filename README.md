@@ -190,6 +190,10 @@ Proposals to change the JavaScript language in ways that would make this package
 
 ## Changelog
 
+### 3.0.1 · 2022-10-15
+
+- Hotfix of 3.0.0 release, which didn’t include the `build/` files 🤦‍♂️
+
 ### 3.0.0 · 2022-10-15
 
 - Modernized the codebase & turned it into an [ESM-only package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
