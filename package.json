@@ -20,7 +20,7 @@
   "types": "./build/index.d.mts",
   "scripts": {
     "prepare": "tsc",
-    "test": "prettier --check \"source/**/*.mts\" --end-of-line auto && npm run prepare && cross-env TEST=collections-deep-equal node ./build/index.mjs"
+    "test": "prettier --check \"./source/**/*.mts\" --end-of-line auto && npm run prepare && cross-env TEST=collections-deep-equal node ./build/index.mjs"
   },
   "devDependencies": {
     "@types/node": "^18.11.0",
